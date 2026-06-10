@@ -10,7 +10,7 @@
 ## Domain
 
 <!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
-
+My domain is UC Berkeley campus dining and food experiences, including dining halls, on-campus eateries, nearby restaurants, and student food resources. This knowledge is difficult to find in one place because official university websites provide basic information, but students often rely on scattered reviews, Reddit discussions, Yelp ratings, and personal recommendations to learn which options are actually affordable, convenient, and worth visiting. An unofficial guide can bring together these diverse perspectives to help students make informed dining choices.
 ---
 
 ## Documents
