@@ -1,10 +1,22 @@
+# Ingestion & Chunking (Milestone 3)
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+langchain>=0.1.0
+langchain-text-splitters>=0.0.1
+playwright>=1.40.0
+
+# Embedding & Retrieval (Milestone 4)
 sentence-transformers==3.4.1
 chromadb>=0.6.0
+
+# Generation (Milestone 5)
 groq==0.15.0
+
+# Utilities
 python-dotenv==1.0.1
 
 # Query interface — add whichever you use for Milestone 5:
-# gradio>=6.9.0
+gradio>=6.9.0
 # streamlit>=1.40.0
 
 # Document ingestion — add if your documents/ folder contains .pdf files:

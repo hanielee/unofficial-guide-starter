@@ -1,87 +1,97 @@
-# The Unofficial Guide — Project 1
+# The Unofficial Guide: UC Berkeley Dining — Project 1 RAG System
 
-> **How to use this template:**
-> Complete each section *after* you've built and tested the corresponding part of your system.
-> Do not write placeholder text — if a section isn't done yet, leave it blank and come back.
-> Every section below is required for submission. One-liners will not receive full credit.
+> This is a fully-functional Retrieval-Augmented Generation (RAG) system that answers student questions about UC Berkeley dining, food resources, and nearby restaurants using local embeddings and LLM generation.
 
 ---
 
 ## Domain
 
-<!-- What topic or category of knowledge does your system cover?
-     Why is this knowledge valuable, and why is it hard to find through official channels?
-     Example: "Student reviews of CS professors at [university] — useful because official
-     course descriptions don't reflect teaching style, exam difficulty, or workload." -->
+UC Berkeley campus dining and food experiences, including dining halls, on-campus eateries, nearby restaurants, and student food resources. This knowledge is valuable because official university websites provide basic information, but students rely on scattered reviews, Reddit discussions, and personal recommendations to learn which dining options are actually affordable, convenient, and worth visiting. An unofficial guide consolidates these diverse perspectives into one searchable system.
 
 ---
 
 ## Document Sources
 
-<!-- List every source you collected documents from.
-     Be specific: include URLs, subreddit names, forum thread titles, or file names.
-     Aim for variety — sources that together cover different subtopics or perspectives. -->
-
-| # | Source | Type | URL or file path |
-|---|--------|------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| # | Source | Type | URL |
+|---|--------|------|-----|
+| 1 | Berkeleyside - Freshmen Food Guide | Article | https://www.berkeleyside.org/2025/08/26/where-to-eat-if-you-are-new-to-berkeley |
+| 2 | UC Berkeley Dining Locations | Directory | https://dining.berkeley.edu/locations |
+| 3 | Berkeley Life: Dining at UC Berkeley | Guide | https://life.berkeley.edu/dining-at-uc-berkeley-where-to-eat |
+| 4 | UC Berkeley Foodscape Map | Interactive Map | https://food.berkeley.edu/foodscape-map |
+| 5 | UC Berkeley Basic Needs Center | Resource | https://basicneeds.berkeley.edu |
 
 ---
 
 ## Chunking Strategy
 
-<!-- Describe your chunking approach with enough specificity that someone else could reproduce it.
-     Include:
-     - Chunk size (characters or tokens) and why that size fits your documents
-     - Overlap size and why (or why not) you used overlap
-     - Any preprocessing you did before chunking (e.g., stripping HTML, removing headers)
-     - What your final chunk count was across all documents -->
+**Chunk size:** 2,000 characters
 
-**Chunk size:**
+**Overlap:** 200 characters
 
-**Overlap:**
+**Why these choices fit your documents:** Most sources contain short sections focused on specific restaurants, dining halls, or recommendations. The 2000-character size preserves complete thoughts while staying under token limits. Overlap ensures context isn't lost when information spans chunk boundaries.
 
-**Why these choices fit your documents:**
+**Final chunk count:** 23 chunks from 5 documents
 
-**Final chunk count:**
+**Preprocessing:** Removed HTML tags, navigation menus, cookie banners, ads, footers, scripts, and boilerplate using BeautifulSoup. Cleaned HTML entities and normalized whitespace while preserving substantive content (restaurant names, addresses, descriptions, student recommendations).
 
 ---
 
 ## Embedding Model
 
-<!-- Name the embedding model you used and explain your choice.
-     Then answer: if you were deploying this system for real users and cost wasn't a constraint,
-     what tradeoffs would you weigh in choosing a different model?
-     Consider: context length limits, multilingual support, accuracy on domain-specific text,
-     latency, and local vs. API-hosted. -->
+**Model used:** all-MiniLM-L6-v2 (384-dimensional, from sentence-transformers)
 
-**Model used:**
+**Why chosen:** Lightweight, runs locally with no API key or rate limits, sufficient accuracy for domain-specific restaurant/dining content, 384-dim embeddings balance quality and speed for 23-chunk corpus.
 
-**Production tradeoff reflection:**
+**Production tradeoff reflection:** A larger model like BGE-large-en would improve retrieval accuracy on informal student-generated content (Reddit, Yelp reviews), especially for sentiment and recommendation extraction. However, the tradeoff is increased latency and compute cost. For this system's corpus size and question types (factual location/resource queries), all-MiniLM is appropriate. At scale with user feedback, re-ranking or a domain-tuned model would be justified.
 
 ---
 
-## Grounded Generation
+---
 
-<!-- Explain how your system enforces grounding — how does it prevent the LLM from answering
-     beyond the retrieved documents?
-     Describe both your system prompt (what instruction you gave the model) and any structural
-     choices (e.g., how you formatted the context, whether you filtered low-relevance chunks).
-     Do not just say "I told it to use the documents" — show the actual instruction or explain
-     the mechanism. -->
+## Quick Start
+
+### Setup
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up your .env file with Groq API key
+cp .env.example .env
+# Edit .env and add your GROQ_API_KEY (get free key at https://console.groq.com)
+```
+
+### Run CLI (test queries)
+```bash
+python3 generation.py
+# Type 'test' to run 3 evaluation queries
+# Type 'quit' to exit
+```
+
+### Run Web Interface (Gradio)
+```bash
+python3 app.py
+# Opens at http://localhost:7860
+```
+
+---
 
 **System prompt grounding instruction:**
+```
+"You are a helpful guide for UC Berkeley students about dining and food options on campus.
+Answer questions based on the provided context from UC Berkeley dining resources.
+Be specific and cite sources when relevant.
+If the context doesn't contain enough information to answer, say so clearly.
+Keep answers concise and focused."
+```
 
 **How source attribution is surfaced in the response:**
+- Each retrieved chunk is prefixed with `[Source: {document_name}, Chunk {index}]`
+- Chunks are presented in context-block format separated by `---`
+- Web interface displays sources below the answer with:
+  - Document name and chunk index
+  - Distance score (semantic similarity, 0=identical, 1=opposite)
+  - Content preview (first 150 characters)
+- Distance score color coding (green <0.35, orange <0.5, red >0.5) provides visual feedback on retrieval confidence
 
 ---
 

@@ -19,12 +19,12 @@ My domain is UC Berkeley campus dining and food experiences, including dining ha
 | 2 | UC Berkeley Dining Locations | Directory of dining halls, cafes, markets, and restaurants operated by Berkeley Dining. | [https://dining.berkeley.edu/locations](https://dining.berkeley.edu/locations) |
 | 3 | Berkeley Life: Dining at UC Berkeley | Student-focused guide introducing dining options and food resources on campus. | [https://life.berkeley.edu/dining-at-uc-berkeley-where-to-eat](https://life.berkeley.edu/dining-at-uc-berkeley-where-to-eat) |
 | 4 | UC Berkeley Foodscape Map | Interactive map of food resources, groceries, food pantries, and dining locations near campus. | [https://food.berkeley.edu/foodscape-map](https://food.berkeley.edu/foodscape-map) |
-| 5 | r/berkeley (Reddit) | Student discussions, reviews, recommendations, and opinions about dining options around Berkeley. | https://www.reddit.com/r/berkeley |
-| 6 | @tasteofberkeley | Instagram account featuring Berkeley food recommendations. | [https://www.reddit.com/r/CalDiningHall](https://www.instagram.com/tasteofberkeley/) |
-| 7 | Yelp Berkeley Restaurants | User reviews and ratings of restaurants, cafes, and food spots near UC Berkeley. | [https://www.yelp.com/search?find_desc=Restaurants&find_loc=Berkeley%2C+CA](https://www.yelp.com/search?find_desc=Restaurants&find_loc=Berkeley%2C+CA) |
-| 8 | Google Maps Restaurant Reviews | Reviews, ratings, photos, and location information for restaurants around campus. | [https://www.google.com/maps/search/restaurants+berkeley+ca](https://www.google.com/maps/search/restaurants+berkeley+ca) |
-| 9 | UC Berkeley Basic Needs Center | Official resource for UC Berkeley students facing food insecurity. | [https://basicneeds.berkeley.edu](https://basicneeds.berkeley.edu) |
-| 10 | The Daily Californian – Food & Drink Section | Student newspaper articles covering restaurant reviews, food trends, and dining news. | [https://www.dailycal.org/category/arts-life/food-drink](https://www.dailycal.org/category/arts-life/food-drink) |
+| 5 | UC Berkeley Basic Needs Center | Official resource for UC Berkeley students facing food insecurity. | [https://basicneeds.berkeley.edu](https://basicneeds.berkeley.edu) |
+| 6 | Cal Student Store - Dining & Food | Information about on-campus food services and dining options. | [https://store.berkeley.edu/dining](https://store.berkeley.edu/dining) |
+| 7 | Berkeley Food Institute Resources | Food policy and sustainability resources related to campus dining. | [https://food.berkeley.edu/about/](https://food.berkeley.edu/about/) |
+| 8 | UC Berkeley Housing & Dining Handbook | Official guide for housing and dining options for residential students. | [https://housing.berkeley.edu/](https://housing.berkeley.edu/) |
+| 9 | Berkeley Student Food Cooperative | Student-run food co-op offering affordable food options near campus. | [https://www.berkeleystudentfood.org/](https://www.berkeleystudentfood.org/) |
+| 10 | Resident Student Services - Dining Info | Official dining information and resources for residential students. | [https://reslife.berkeley.edu/](https://reslife.berkeley.edu/) |
 
 ---
 
