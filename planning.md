@@ -1,16 +1,11 @@
 # Project 1 Planning: The Unofficial Guide
 
-> Write this document before you write any pipeline code.
-> Your spec and architecture diagram are what you'll use to direct AI tools (Claude, Copilot, etc.) to generate your implementation — the more specific they are, the more useful the generated code will be.
-> Update the Retrieval Approach and Chunking Strategy sections if you change your approach during implementation.
-> Update this file before starting any stretch features.
-
 ---
 
 ## Domain
 
 <!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
-**My domain is UC Berkeley campus dining and food experiences, including dining halls, on-campus eateries, nearby restaurants, and student food resources. This knowledge is difficult to find in one place because official university websites provide basic information, but students often rely on scattered reviews, Reddit discussions, Yelp ratings, and personal recommendations to learn which options are actually affordable, convenient, and worth visiting. An unofficial guide can bring together these diverse perspectives to help students make informed dining choices.**
+My domain is UC Berkeley campus dining and food experiences, including dining halls, on-campus eateries, nearby restaurants, and student food resources. This knowledge is difficult to find in one place because official university websites provide basic information, but students often rely on scattered reviews, Reddit discussions, Yelp ratings, and personal recommendations to learn which options are actually affordable, convenient, and worth visiting. An unofficial guide can bring together these diverse perspectives to help students make informed dining choices.
 ---
 
 ## Documents
@@ -28,7 +23,7 @@
 | 6 | @tasteofberkeley | Instagram account featuring Berkeley food recommendations. | [https://www.reddit.com/r/CalDiningHall](https://www.instagram.com/tasteofberkeley/) |
 | 7 | Yelp Berkeley Restaurants | User reviews and ratings of restaurants, cafes, and food spots near UC Berkeley. | [https://www.yelp.com/search?find_desc=Restaurants&find_loc=Berkeley%2C+CA](https://www.yelp.com/search?find_desc=Restaurants&find_loc=Berkeley%2C+CA) |
 | 8 | Google Maps Restaurant Reviews | Reviews, ratings, photos, and location information for restaurants around campus. | [https://www.google.com/maps/search/restaurants+berkeley+ca](https://www.google.com/maps/search/restaurants+berkeley+ca) |
-| 9 | Berkeley Student Food Collective | Student-run grocery store and food resource promoting affordable and sustainable food options. | [https://berkeleystudentfoodcollective.org](https://berkeleystudentfoodcollective.org) |
+| 9 | UC Berkeley Basic Needs Center | Official resource for UC Berkeley students facing food insecurity. | [https://basicneeds.berkeley.edu](https://basicneeds.berkeley.edu) |
 | 10 | The Daily Californian – Food & Drink Section | Student newspaper articles covering restaurant reviews, food trends, and dining news. | [https://www.dailycal.org/category/arts-life/food-drink](https://www.dailycal.org/category/arts-life/food-drink) |
 
 ---
@@ -40,11 +35,11 @@
      numbers fit the structure of your documents.
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
-**Chunk size:**
+**Chunk size:** 2,000 characters
 
-**Overlap:**
+**Overlap:** 200 characters
 
-**Reasoning:**
+**Reasoning:** This chunk size is well-suited for my sources because many documents contain short sections focused on specific restaurants, dining halls, or recommendations. The overlap helps preserve context when information spans chunk boundaries, reducing the risk of losing important details during retrieval.
 
 ---
 
@@ -56,11 +51,11 @@
      would you weigh in choosing a different embedding model — context length, multilingual
      support, accuracy on domain-specific text, latency? -->
 
-**Embedding model:**
+**Embedding model:** BAAI/bge-large-en
 
-**Top-k:**
+**Top-k:** I will retrieve the top 8 most relevant chunks for each query. This value balances recall and precision by returning enough information from multiple sources without overwhelming the system with irrelevant results.
 
-**Production tradeoff reflection:**
+**Production tradeoff reflection:** If I were deploying this system for real users and cost was not a constraint, I would evaluate alternative embedding models based on retrieval accuracy, context length, multilingual support, and latency. A larger or more specialized model could improve retrieval quality, especially for informal student-generated content, but may increase computational costs and response times. I would also consider adding a re-ranking stage to improve the relevance of the final retrieved results.
 
 ---
 
@@ -73,11 +68,11 @@
 
 | # | Question | Expected answer |
 |---|----------|-----------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+| 1 | What are the names of UC Berkeley's main dining commons listed on the official Dining Locations page? | Café 3, Clark Kerr, Crossroads, and Foothill. |
+| 2 | According to Berkeleyside's "Freshmen Food Guide," what is recommended for an affordable lunch under $10 near campus? | Cheese 'N' Stuff, a small deli under the Telegraph-Channing parking garage, recommended for a fresh lunch for less than $10. |
+| 3 | According to UC Berkeley's Dining Locations page, which convenience stores are listed alongside the dining commons? | Bear Market, CKCub, Cub Market, The Den, and Pizzeria 1868. |
+| 4 | What types of food resources does UC Berkeley's Foodscape Map display near campus? | Food resources, groceries, food pantries, and dining locations near campus. |
+| 5 | What resources does UC Berkeley's Basic Needs Center offer to help students afford groceries? | CalFresh (SNAP/EBT) application support, providing eligible students up to $298/month, plus a campus food pantry and emergency food relief. |
 
 ---
 
@@ -87,9 +82,9 @@
      Consider: noisy or inconsistent documents, missing source attribution, off-topic
      retrieval, chunks that split key information across boundaries. -->
 
-1.
+1. Off-topic or noisy retrieval from Reddit and social media sources — r/berkeley contains a huge mix of unrelated topics (housing, classes, campus news, etc.), so a retrieval system could pull in irrelevant threads when searching for food-related content. Comments are also informal, sarcastic, or outdated, making it hard to distinguish genuinely useful recommendations from jokes or one-off complaints.
 
-2.
+2. Inconsistent or missing source attribution across dynamic pages — sources like Yelp, Google Maps, and the Foodscape Map display constantly changing, user-generated content (reviews, ratings, hours) without clear timestamps or stable URLs for individual entries. If the system retrieves a snippet from these pages, it may be difficult to attribute it to a specific restaurant, review, or date, leading to outdated or unverifiable information being presented as current.
 
 ---
 
@@ -100,6 +95,14 @@
      Label each stage with the tool or library you're using.
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
+
+```mermaid
+flowchart TD
+    A["1. Document ingestion<br/>requests + BeautifulSoup<br/>Scrape source web pages"] --> B["2. Chunking<br/>LangChain<br/>RecursiveCharacterTextSplitter"]
+    B --> C["3. Embedding + vector store<br/>sentence-transformers<br/>ChromaDB"]
+    C --> D["4. Retrieval<br/>ChromaDB similarity search<br/>Top-k chunks"]
+    D --> E["5. Generation<br/>Groq API<br/>llama-3.3-70b-versatile"]
+```
 
 ---
 
